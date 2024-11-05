@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 from google_cloud_pipeline_components import _image
 from google_cloud_pipeline_components import _placeholders
@@ -43,6 +43,7 @@ def model_upload(
     labels: Dict[str, str] = {},
     encryption_spec_key_name: str = '',
     project: str = _placeholders.PROJECT_ID_PLACEHOLDER,
+    model_id: Optional[str] = None,
 ):
   # fmt: off
   """[Uploads](https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.models/upload) a Google Cloud Vertex [Model](https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.models) and returns a Model artifact representing the uploaded Model resource, with a tag for the particular version. See [Model upload](https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.models/upload) method for more information.
@@ -122,6 +123,13 @@ def model_upload(
               then=[
                   '--parent_model_name',
                   parent_model.metadata['resourceName'],
+              ],
+          ),
+          IfPresentPlaceholder(
+              input_name='model_id',
+              then=[
+                  '--model_id',
+                  model_id,
               ],
           ),
       ],

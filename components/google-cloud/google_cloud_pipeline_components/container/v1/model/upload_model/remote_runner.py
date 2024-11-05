@@ -62,6 +62,7 @@ def upload_model(
     gcp_resources: str,
     executor_input: str,
     parent_model_name: Optional[str] = None,
+    model_id: Optional[str] = None
 ) -> None:
   """Upload model and poll the LongRunningOperator till it reaches a final state."""
   api_endpoint = location + '-aiplatform.googleapis.com'
@@ -83,6 +84,9 @@ def upload_model(
   }
   if parent_model_name:
     upload_model_request['parent_model'] = parent_model_name.rsplit('@', 1)[0]
+  
+  if model_id:
+    upload_model_request['model_id'] = model_id
 
   # Add explanation_spec details back into the request if metadata is non-empty, as sklearn/xgboost input features can be empty.
   if (

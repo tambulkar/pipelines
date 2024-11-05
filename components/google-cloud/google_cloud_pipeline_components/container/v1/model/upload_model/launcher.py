@@ -35,6 +35,9 @@ def _parse_args(args):
   parser.add_argument(
       '--parent_model_name', dest='parent_model_name', type=str, default=None
   )
+  parser.add_argument(
+      '--model_id', dest='model_id', type=str, default=None
+  )
   parsed_args, _ = parser.parse_known_args(args)
   return vars(parsed_args)
 
